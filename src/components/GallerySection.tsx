@@ -4,6 +4,12 @@ import galleryPopsicles from "@/assets/gallery-popsicles.jpg";
 import galleryMacarons from "@/assets/gallery-macarons.jpg";
 import galleryCake from "@/assets/gallery-cake.jpg";
 import tortas from "@/assets/tortas1.png";
+import galleryEclairs from "@/assets/gallery-eclairs.jpg";
+import galleryProfiteroles from "@/assets/gallery-profiteroles.jpg";
+import galleryTarts from "@/assets/gallery-tarts.jpg";
+import galleryCakepops from "@/assets/gallery-cakepops.jpg";
+import galleryTruffles from "@/assets/gallery-truffles.jpg";
+import galleryMillefeuille from "@/assets/gallery-millefeuille.jpg";
 
 const images = [
   { src: galleryCupcakes, alt: "Cupcakes artesanales", className: "col-span-1 row-span-1" },
@@ -12,6 +18,12 @@ const images = [
   { src: galleryCake, alt: "Pastel decorado", className: "col-span-1 row-span-2" },
   { src: galleryPopsicles, alt: "Paletas de fresa", className: "col-span-1 row-span-1" },
   { src: tortas, alt: "Tortas especiales", className: "col-span-1 row-span-1" },
+  { src: galleryEclairs, alt: "Éclairs franceses", className: "col-span-1 row-span-1" },
+  { src: galleryProfiteroles, alt: "Profiteroles", className: "col-span-1 row-span-2" },
+  { src: galleryTarts, alt: "Mini tartas de frutas", className: "col-span-1 row-span-1" },
+  { src: galleryCakepops, alt: "Cake pops", className: "col-span-1 row-span-1" },
+  { src: galleryTruffles, alt: "Trufas de chocolate", className: "col-span-1 row-span-1" },
+  { src: galleryMillefeuille, alt: "Milhojas", className: "col-span-1 row-span-2" },
 ];
 
 const GallerySection = () => (
@@ -23,7 +35,7 @@ const GallerySection = () => (
         <div className="w-16 h-px bg-primary mx-auto mt-4" />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[200px] md:auto-rows-[220px] gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[200px] gap-4">
         {images.map((img, i) => (
           <div key={i} className={`${img.className} rounded-2xl overflow-hidden group`}>
             <img
