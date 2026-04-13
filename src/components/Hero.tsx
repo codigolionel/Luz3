@@ -22,7 +22,7 @@ const Hero = () => (
 
       <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-primary-foreground leading-tight mb-6">
         Bienvenidos a{" "}
-        <span className="italic text-rose-light">Bellaria</span>
+        <span className="italic text-rose-light">Luz de Rosas</span>
       </h1>
 
       <p className="text-primary-foreground/80 text-base md:text-lg font-sans max-w-xl mx-auto mb-8">

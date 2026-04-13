@@ -34,7 +34,7 @@ const Footer = () => (
 
         {/* Logo center */}
         <div className="text-center">
-          <h2 className="font-serif text-4xl mb-4">Bellaria</h2>
+          <h2 className="font-serif text-4xl mb-4">Luz de Rosas</h2>
           <p className="text-cream/60 font-sans text-sm leading-relaxed max-w-xs mx-auto">
             Repostería artesanal con alma. Cada creación es una obra de arte comestible.
           </p>
@@ -69,7 +69,7 @@ const Footer = () => (
       </div>
 
       <div className="border-t border-cream/10 mt-12 pt-8 text-center">
-        <p className="text-cream/40 text-xs font-sans">© 2026 Bellaria. Todos los derechos reservados.</p>
+        <p className="text-cream/40 text-xs font-sans"><p className="text-cream/40 text-xs font-sans">© 2026 Luz de Rosas. Todos los derechos reservados.</p>. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
