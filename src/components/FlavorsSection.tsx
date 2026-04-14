@@ -1,19 +1,19 @@
-import flavorStrawberry from "@/assets/flavor-strawberry.jpg";
-import flavorChocolate from "@/assets/flavor-chocolate.jpg";
-import flavorPistachio from "@/assets/flavor-pistachio.jpg";
+import flavorVanilla from "@/assets/flavor-vanilla.jpg";
+import flavorChoco from "@/assets/flavor-choco-cake.jpg";
+import flavorRedvelvet from "@/assets/flavor-redvelvet.jpg";
 
 const flavors = [
-  { name: "Fresa", image: flavorStrawberry },
-  { name: "Chocolate", image: flavorChocolate },
-  { name: "Pistacho", image: flavorPistachio },
+  { name: "Vainilla & Fresas", image: flavorVanilla },
+  { name: "Chocolate", image: flavorChoco },
+  { name: "Red Velvet", image: flavorRedvelvet },
 ];
 
 const FlavorsSection = () => (
   <section className="py-20 md:py-28 bg-background">
     <div className="container mx-auto px-6">
       <div className="text-center mb-16">
-        <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Sabores únicos</span>
-        <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Amplia Variedad de Sabores</h2>
+        <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Sabores irresistibles</span>
+        <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Nuestros Sabores</h2>
         <div className="w-16 h-px bg-primary mx-auto mt-4" />
       </div>
 

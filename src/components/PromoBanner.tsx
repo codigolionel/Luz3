@@ -1,4 +1,4 @@
-import promoBox from "@/assets/promo-box.jpg";
+import promoCake from "@/assets/promo-cake.jpg";
 
 const PromoBanner = () => (
   <section className="relative overflow-hidden">
@@ -10,12 +10,12 @@ const PromoBanner = () => (
     <div className="bg-rose-light py-16 md:py-24">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 text-center md:text-left">
-          <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Oferta Especial</span>
+          <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Celebra con nosotros</span>
           <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3 leading-tight">
-            Cualquier diseño para tu día festivo
+            La torta perfecta para tu cumpleaños
           </h2>
           <p className="text-muted-foreground font-sans mt-4 max-w-md leading-relaxed">
-            Personalizamos cada caja de macarons para bodas, cumpleaños, aniversarios y cualquier celebración especial. Haz de tu evento algo inolvidable.
+            Diseñamos y elaboramos tortas únicas para cumpleaños, con sabores exquisitos y decoraciones personalizadas que harán de tu celebración algo inolvidable.
           </p>
           <a
             href="#reservation"
@@ -27,8 +27,8 @@ const PromoBanner = () => (
 
         <div className="flex-1 max-w-md">
           <img
-            src={promoBox}
-            alt="Caja de macarons regalo"
+            src={promoCake}
+            alt="Torta de cumpleaños premium"
             loading="lazy"
             width={800}
             height={800}

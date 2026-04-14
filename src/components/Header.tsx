@@ -2,12 +2,10 @@ import { useState } from "react";
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Hogar", href: "#" },
-  { label: "Páginas", href: "#" },
-  { label: "Cartera", href: "#gallery" },
-  { label: "Blog", href: "#" },
-  { label: "Comercio", href: "#products" },
-  { label: "Contactos", href: "#reservation" },
+  { label: "Inicio", href: "#" },
+  { label: "Tortas", href: "#products" },
+  { label: "Galería", href: "#gallery" },
+  { label: "Contacto", href: "#reservation" },
 ];
 
 const Header = () => {

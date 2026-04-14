@@ -1,21 +1,21 @@
-import macaronOrganic from "@/assets/macaron-organic.jpg";
-import macaronFlowers from "@/assets/macaron-flowers.jpg";
-import macaronFashion from "@/assets/macaron-fashion.jpg";
-import macaronMix from "@/assets/macaron-mix.jpg";
+import cakeClassic from "@/assets/cake-classic.jpg";
+import cakeChocolate from "@/assets/cake-chocolate.jpg";
+import cakeThemed from "@/assets/cake-themed.jpg";
+import cakeNaked from "@/assets/cake-naked.jpg";
 
 const products = [
-  { title: "Macarons Orgánicos", description: "Elaborados con ingredientes 100% naturales y orgánicos certificados.", image: macaronOrganic },
-  { title: "Macarons de Flores", description: "Decorados con pétalos comestibles y esencias florales delicadas.", image: macaronFlowers },
-  { title: "Macarons de Moda", description: "Colores vibrantes y presentaciones exclusivas para cada temporada.", image: macaronFashion },
-  { title: "Mezcla para Macarons", description: "Kits artesanales para que crees tus propios macarons en casa.", image: macaronMix },
+  { title: "Torta Clásica", description: "Elegante torta de pisos con buttercream, rosas y detalles dorados.", image: cakeClassic },
+  { title: "Torta de Chocolate", description: "Irresistible torta de chocolate con ganache, frutos rojos y decoración premium.", image: cakeChocolate },
+  { title: "Torta Temática", description: "Diseños creativos y personalizados para cada temática de cumpleaños.", image: cakeThemed },
+  { title: "Naked Cake", description: "Torta rústica con capas visibles, flores naturales y frutas frescas.", image: cakeNaked },
 ];
 
 const ProductSection = () => (
   <section id="products" className="py-20 md:py-28 bg-background">
     <div className="container mx-auto px-6">
       <div className="text-center mb-16">
-        <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Nuestros favoritos</span>
-        <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Nuestros Macarons</h2>
+        <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Nuestras especialidades</span>
+        <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Nuestras Tortas</h2>
         <div className="w-16 h-px bg-primary mx-auto mt-4" />
       </div>
 

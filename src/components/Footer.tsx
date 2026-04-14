@@ -1,10 +1,10 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter } from "lucide-react";
-import galleryCupcakes from "@/assets/gallery-cupcakes.jpg";
-import galleryDonuts from "@/assets/gallery-donuts.jpg";
-import galleryMacarons from "@/assets/gallery-macarons.jpg";
 import galleryCake from "@/assets/gallery-cake.jpg";
+import cakeClassic from "@/assets/cake-classic.jpg";
+import cakeChocolate from "@/assets/cake-chocolate.jpg";
+import cakeNaked from "@/assets/cake-naked.jpg";
 
-const miniGallery = [galleryCupcakes, galleryDonuts, galleryMacarons, galleryCake];
+const miniGallery = [galleryCake, cakeClassic, cakeChocolate, cakeNaked];
 
 const Footer = () => (
   <footer className="bg-chocolate text-cream">
@@ -28,7 +28,7 @@ const Footer = () => (
           </div>
           <div className="flex items-center gap-3 text-sm font-sans text-cream/70">
             <Mail className="w-4 h-4 shrink-0 text-primary" />
-            <span>hola@bellaria.es</span>
+            <span>hola@luzderosas.es</span>
           </div>
         </div>
 
@@ -36,7 +36,7 @@ const Footer = () => (
         <div className="text-center">
           <h2 className="font-serif text-4xl mb-4">Luz de Rosas</h2>
           <p className="text-cream/60 font-sans text-sm leading-relaxed max-w-xs mx-auto">
-            Repostería artesanal con alma. Cada creación es una obra de arte comestible.
+            Tortas de cumpleaños artesanales con alma. Cada creación es una obra de arte comestible.
           </p>
           <div className="flex items-center justify-center gap-4 mt-6">
             <a href="#" className="w-9 h-9 rounded-full border border-cream/30 flex items-center justify-center hover:border-primary hover:text-primary transition-colors">
@@ -59,7 +59,7 @@ const Footer = () => (
               <img
                 key={i}
                 src={src}
-                alt="Galería"
+                alt="Galería de tortas"
                 loading="lazy"
                 className="w-full aspect-square object-cover rounded-lg"
               />
@@ -69,7 +69,7 @@ const Footer = () => (
       </div>
 
       <div className="border-t border-cream/10 mt-12 pt-8 text-center">
-        <p className="text-cream/40 text-xs font-sans"><p className="text-cream/40 text-xs font-sans">© 2026 Luz de Rosas. Todos los derechos reservados.</p>. Todos los derechos reservados.</p>
+        <p className="text-cream/40 text-xs font-sans">© 2026 Luz de Rosas. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>

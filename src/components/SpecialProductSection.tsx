@@ -1,5 +1,5 @@
-import specialMacaron from "@/assets/special-macaron.jpg";
-import { Palette } from "lucide-react";
+import specialCake from "@/assets/special-cake.jpg";
+import { Cake } from "lucide-react";
 
 const SpecialProductSection = () => (
   <section className="py-20 md:py-28 bg-background">
@@ -7,8 +7,8 @@ const SpecialProductSection = () => (
       <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
         <div className="flex-1 max-w-md">
           <img
-            src={specialMacaron}
-            alt="Macaron especial"
+            src={specialCake}
+            alt="Torta especial de cumpleaños"
             loading="lazy"
             width={600}
             height={600}
@@ -17,17 +17,17 @@ const SpecialProductSection = () => (
         </div>
 
         <div className="flex-1 text-center md:text-left">
-          <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Edición limitada</span>
+          <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Diseño exclusivo</span>
           <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3 leading-tight">
-            Macaron Especial
+            Torta de Autor
           </h2>
           <p className="text-muted-foreground font-sans mt-4 max-w-md leading-relaxed">
-            Nuestro macaron insignia, elaborado con crema de mantequilla francesa y un toque de vainilla de Madagascar. Una experiencia de sabor inigualable.
+            Nuestra torta insignia, elaborada con decoraciones artísticas en fondant, detalles dorados y rosas de azúcar. Cada pieza es una obra de arte única para tu celebración especial.
           </p>
 
           <div className="flex items-center gap-3 mt-6 justify-center md:justify-start">
-            <Palette className="w-5 h-5 text-primary" />
-            <span className="font-serif text-lg italic text-foreground">Cualquier color</span>
+            <Cake className="w-5 h-5 text-primary" />
+            <span className="font-serif text-lg italic text-foreground">Personalización total</span>
           </div>
 
           <a

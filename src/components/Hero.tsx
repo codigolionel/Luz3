@@ -1,10 +1,10 @@
-import heroImg from "@/assets/hero-macarons.jpg";
+import heroImg from "@/assets/hero-cakes.jpg";
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
     <img
       src={heroImg}
-      alt="Macarons artesanales"
+      alt="Tortas de cumpleaños artesanales"
       className="absolute inset-0 w-full h-full object-cover"
       width={1920}
       height={1080}
@@ -15,7 +15,7 @@ const Hero = () => (
       <div className="flex items-center justify-center gap-4 mb-6">
         <span className="block w-16 h-px bg-primary-foreground/60" />
         <span className="text-primary-foreground/80 text-xs tracking-[0.3em] uppercase font-sans">
-          Repostería Artesanal
+          Tortas Artesanales
         </span>
         <span className="block w-16 h-px bg-primary-foreground/60" />
       </div>
@@ -26,7 +26,7 @@ const Hero = () => (
       </h1>
 
       <p className="text-primary-foreground/80 text-base md:text-lg font-sans max-w-xl mx-auto mb-8">
-        Creamos dulces momentos con recetas artesanales, ingredientes selectos y un toque de elegancia en cada bocado.
+        Creamos tortas de cumpleaños únicas y personalizadas con ingredientes selectos, diseños elegantes y un toque de amor en cada detalle.
       </p>
 
       <a

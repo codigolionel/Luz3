@@ -22,7 +22,7 @@ const ReservationForm = () => {
       <div className="relative z-10 container mx-auto px-6 max-w-xl">
         <div className="text-center mb-12">
           <span className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-sans">Contáctanos</span>
-          <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Hacer Reserva</h2>
+          <h2 className="font-serif text-3xl md:text-5xl text-foreground mt-3">Pide Tu Torta</h2>
           <div className="w-16 h-px bg-primary mx-auto mt-4" />
         </div>
 
@@ -46,14 +46,15 @@ const ReservationForm = () => {
             onChange={(e) => setForm({ ...form, type: e.target.value })}
             className="w-full px-5 py-3 rounded-full border border-border bg-card/80 backdrop-blur-sm text-foreground font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
-            <option value="">Tipo de mensaje</option>
-            <option value="reserva">Reserva</option>
-            <option value="pedido">Pedido especial</option>
-            <option value="evento">Evento</option>
-            <option value="otro">Otro</option>
+            <option value="">Tipo de torta</option>
+            <option value="clasica">Torta Clásica</option>
+            <option value="chocolate">Torta de Chocolate</option>
+            <option value="tematica">Torta Temática</option>
+            <option value="naked">Naked Cake</option>
+            <option value="autor">Torta de Autor</option>
           </select>
           <textarea
-            placeholder="Mensaje"
+            placeholder="Cuéntanos sobre tu celebración (fecha, cantidad de personas, diseño deseado...)"
             rows={4}
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}

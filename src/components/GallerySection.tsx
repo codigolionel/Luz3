@@ -1,29 +1,29 @@
-import galleryCupcakes from "@/assets/gallery-cupcakes.jpg";
-import galleryDonuts from "@/assets/gallery-donuts.jpg";
-import galleryPopsicles from "@/assets/gallery-popsicles.jpg";
-import galleryMacarons from "@/assets/gallery-macarons.jpg";
 import galleryCake from "@/assets/gallery-cake.jpg";
 import tortas from "@/assets/tortas1.png";
-import galleryEclairs from "@/assets/gallery-eclairs.jpg";
-import galleryProfiteroles from "@/assets/gallery-profiteroles.jpg";
-import galleryTarts from "@/assets/gallery-tarts.jpg";
-import galleryCakepops from "@/assets/gallery-cakepops.jpg";
-import galleryTruffles from "@/assets/gallery-truffles.jpg";
-import galleryMillefeuille from "@/assets/gallery-millefeuille.jpg";
+import cakeClassic from "@/assets/cake-classic.jpg";
+import cakeChocolate from "@/assets/cake-chocolate.jpg";
+import cakeThemed from "@/assets/cake-themed.jpg";
+import cakeNaked from "@/assets/cake-naked.jpg";
+import specialCake from "@/assets/special-cake.jpg";
+import flavorVanilla from "@/assets/flavor-vanilla.jpg";
+import flavorChoco from "@/assets/flavor-choco-cake.jpg";
+import flavorRedvelvet from "@/assets/flavor-redvelvet.jpg";
+import promoCake from "@/assets/promo-cake.jpg";
+import heroImg from "@/assets/hero-cakes.jpg";
 
 const images = [
-  { src: galleryCupcakes, alt: "Cupcakes artesanales", className: "col-span-1 row-span-1" },
-  { src: galleryMacarons, alt: "Torre de macarons", className: "col-span-1 row-span-2" },
-  { src: galleryDonuts, alt: "Donuts coloridos", className: "col-span-1 row-span-1" },
+  { src: tortas, alt: "Tortas especiales", className: "col-span-1 row-span-2" },
+  { src: cakeClassic, alt: "Torta clásica con rosas", className: "col-span-1 row-span-1" },
+  { src: cakeChocolate, alt: "Torta de chocolate", className: "col-span-1 row-span-1" },
   { src: galleryCake, alt: "Pastel decorado", className: "col-span-1 row-span-2" },
-  { src: galleryPopsicles, alt: "Paletas de fresa", className: "col-span-1 row-span-1" },
-  { src: tortas, alt: "Tortas especiales", className: "col-span-1 row-span-1" },
-  { src: galleryEclairs, alt: "Éclairs franceses", className: "col-span-1 row-span-1" },
-  { src: galleryProfiteroles, alt: "Profiteroles", className: "col-span-1 row-span-2" },
-  { src: galleryTarts, alt: "Mini tartas de frutas", className: "col-span-1 row-span-1" },
-  { src: galleryCakepops, alt: "Cake pops", className: "col-span-1 row-span-1" },
-  { src: galleryTruffles, alt: "Trufas de chocolate", className: "col-span-1 row-span-1" },
-  { src: galleryMillefeuille, alt: "Milhojas", className: "col-span-1 row-span-2" },
+  { src: cakeThemed, alt: "Torta temática unicornio", className: "col-span-1 row-span-1" },
+  { src: cakeNaked, alt: "Naked cake con flores", className: "col-span-1 row-span-1" },
+  { src: specialCake, alt: "Torta de autor", className: "col-span-1 row-span-1" },
+  { src: flavorVanilla, alt: "Torta de vainilla y fresas", className: "col-span-1 row-span-2" },
+  { src: flavorChoco, alt: "Torta de chocolate premium", className: "col-span-1 row-span-1" },
+  { src: flavorRedvelvet, alt: "Torta red velvet", className: "col-span-1 row-span-1" },
+  { src: promoCake, alt: "Torta regalo", className: "col-span-1 row-span-1" },
+  { src: heroImg, alt: "Torta de cumpleaños elegante", className: "col-span-1 row-span-2" },
 ];
 
 const GallerySection = () => (
