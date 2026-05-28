@@ -1,0 +1,121 @@
+[
+  { "_comment": "═══ TORTAS — 9 productos (60%) ═══" },
+
+  {
+    "id": 1,
+    "title": "Torta Primer Añito",
+    "description": "El primer año se celebra a lo grande. Diseño dulce y especial para ese momento único.",
+    "category": "Tortas",
+    "image": "/images/products/one.webp"
+  },
+  {
+    "id": 2,
+    "title": "Torta Cumple Color Fest",
+    "description": "Alegría en cada color. Torta vibrante y divertida para cumpleaños llenos de personalidad.",
+    "category": "Tortas",
+    "image": "/images/products/Mirta.webp"
+  },
+  {
+    "id": 3,
+    "title": "Torta Mariposas Elegance",
+    "description": "Tres pisos de pura elegancia. Mariposas delicadas para celebraciones que merecen brillar.",
+    "category": "Tortas",
+    "image": "/images/products/mariposas.webp"
+  },
+  {
+    "id": 4,
+    "title": "Torta Camiseta Argentina",
+    "description": "La pasión por la celeste en formato torta. Personalizada para festejos bien argentinos.",
+    "category": "Tortas",
+    "image": "/images/products/lean-arg.webp"
+  },
+  {
+    "id": 5,
+    "title": "Torta Fernet Lovers",
+    "description": "Para los que la tienen clara. Torta temática hecha para los verdaderos fanáticos del Fernet.",
+    "category": "Tortas",
+    "image": "/images/products/fernet.webp"
+  },
+  {
+    "id": 6,
+    "title": "Torta Doble Diseño",
+    "description": "Dos mundos en una torta. Oscura y vibrante, para cumpleaños que no pasan desapercibidos.",
+    "category": "Tortas",
+    "image": "/images/products/doble.webp"
+  },
+  {
+    "id": 7,
+    "title": "Torta Corazón Celeste",
+    "description": "Un corazón hecho torta. Diseño único y tierno para sorprender a quien más querés.",
+    "category": "Tortas",
+    "image": "/images/products/corazon-celeste.webp"
+  },
+  {
+    "id": 8,
+    "title": "Torta Canasta Floral",
+    "description": "Flores artesanales que enamoran. La torta perfecta para celebrar con dulzura y estilo.",
+    "category": "Tortas",
+    "image": "/images/products/canasta-blanca.webp"
+  },
+  {
+    "id": 9,
+    "title": "Torta Fashion Black",
+    "description": "Elegancia pura en cada detalle. Diseño premium inspirado en el lujo para tu festejo.",
+    "category": "Tortas",
+    "image": "/images/products/Cami.webp"
+  },
+
+  { "_comment": "═══ CUPCAKES — 2 productos (15%) ═══" },
+
+  {
+    "id": 10,
+    "title": "Cupcakes Gourmet de Vainilla",
+    "description": "Docena de cupcakes con buttercream de vainilla bourbon y sprinkles artesanales.",
+    "category": "Cupcakes",
+    "image": "/images/producto-bellaria.png"
+  },
+  {
+    "id": 11,
+    "title": "Cupcakes Red Velvet Premium",
+    "description": "Docena de cupcakes red velvet con frosting de queso crema y corazones de fondant.",
+    "category": "Cupcakes",
+    "image": "/images/producto-bellaria.png"
+  },
+
+  { "_comment": "═══ POPCAKES — 2 productos (13%) ═══" },
+
+  {
+    "id": 12,
+    "title": "Popcakes Clásicos",
+    "description": "Set de 12 popcakes bañados en chocolate con decoración personalizada.",
+    "category": "Popcakes",
+    "image": "/images/producto-bellaria.png"
+  },
+  {
+    "id": 13,
+    "title": "Popcakes de Chocolate Blanco",
+    "description": "Set de 12 popcakes con cobertura de chocolate blanco y topping de frutos secos.",
+    "category": "Popcakes",
+    "image": "/images/producto-bellaria.png"
+  },
+
+  { "_comment": "═══ OREOS BAÑADAS — 1 producto (7%) ═══" },
+
+  {
+    "id": 14,
+    "title": "Oreos Bañadas Premium",
+    "description": "Docena de Oreos bañadas en chocolate belga con diseño temático personalizado.",
+    "category": "Oreos Bañadas",
+    "image": "/images/producto-bellaria.png"
+  },
+
+  { "_comment": "═══ ICE POP — 1 producto (7%) ═══" },
+
+  {
+    "id": 15,
+    "title": "Ice Pop Artesanal",
+    "description": "Set de 6 paletas heladas artesanales con frutas naturales y cobertura de chocolate.",
+    "category": "Ice Pop",
+    "image": "/images/producto-bellaria.png"
+  }
+]

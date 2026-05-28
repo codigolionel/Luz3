@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Lato", "sans-serif"],
-        serif: ["Playfair Display", "serif"],
+        sans: ["Poppins", "sans-serif"],
+        serif: ["Jost", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
