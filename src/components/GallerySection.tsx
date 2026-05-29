@@ -16,17 +16,18 @@ import laura from "@/assets/laura.webp";
 import maciel from "@/assets/Maciel.webp";
 import minions from "@/assets/minions.webp";
 
-const images = [
-  { src: minions, alt: "Torta Minions" },
-  { src: harryPotter, alt: "Torta Harry Potter" },
-  { src: batman, alt: "Torta Batman" },
-  { src: amongUs, alt: "Torta Among Us" },
-  { src: bautistaAuto, alt: "Torta Bautista (auto)" },
-  { src: egresados, alt: "Torta Egresados" },
-  { src: benraiza, alt: "Torta Benraiza" },
-  { src: laura, alt: "Torta Laura" },
-  { src: maciel, alt: "Torta Maciel" },
-  { src: fernet2, alt: "Torta Fernet" },
+const images: { src: string; alt: string; fit?: "contain" | "cover"; className?: string }[] = [
+  { src: minions, alt: "personajes minions" },
+  { src: harryPotter, alt: "harry-Potter" },
+  { src: batman, alt: "Batman", fit: "cover" },
+  { src: amongUs, alt: "personaje rojo 3D", fit: "cover" },
+  { src: bautistaAuto, alt: "Aauto azul con nombre" },
+  { src: egresados, alt: "Gorro egresado mas estrella" },
+  { src: benraiza, alt: "lavarropas con muñeco" },
+  { src: laura, alt: "útiles escolares coloridos" },
+  // Center the last row (4/4/2) on mobile/tablet.
+  { src: maciel, alt: "Piolín y personajes Looney Tunes", className: "col-start-2 sm:col-start-2 lg:col-auto" },
+  { src: fernet2, alt: "lata de Fernet realista", fit: "cover" },
 ];
 
 const GallerySection = () => {
@@ -119,12 +120,12 @@ const GallerySection = () => {
 
         <div
           ref={gridRef}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6 relative z-10 max-w-6xl mx-auto"
+          className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-6 relative z-10 max-w-6xl mx-auto"
         >
           {images.map((img, i) => (
             <div
               key={i}
-              className="relative rounded-none overflow-hidden group cursor-pointer aspect-[3/4] bg-white/10"
+              className={`relative rounded-none overflow-hidden group cursor-pointer aspect-[3/4] bg-white/10 ${img.className ?? ""}`}
               onClick={() => setLightboxIndex(i)}
             >
               <div className="absolute inset-2 border border-white/40 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -132,7 +133,7 @@ const GallerySection = () => {
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
-                className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-700 filter brightness-95 group-hover:brightness-100"
+                className={`w-full h-full ${img.fit === "cover" ? "object-cover" : "object-contain"} group-hover:scale-[1.02] transition-transform duration-700 filter brightness-95 group-hover:brightness-100`}
               />
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
@@ -186,9 +187,11 @@ const GallerySection = () => {
               <ChevronRight className="w-10 h-10" strokeWidth={1} />
             </button>
 
-            <div className="absolute bottom-10 text-center w-full">
-              <p className="text-white font-serif italic text-xl tracking-wide">{images[lightboxIndex].alt}</p>
-              <p className="text-white/40 font-sans text-xs tracking-[0.2em] uppercase mt-2">{lightboxIndex + 1} &mdash; {images.length}</p>
+            <div className="absolute bottom-16 md:bottom-14 text-center w-full">
+              <div className="mx-auto inline-block rounded-xl bg-black/70 px-5 py-3">
+                <p className="text-white font-serif italic text-xl tracking-wide">{images[lightboxIndex].alt}</p>
+                <p className="text-white/60 font-sans text-xs tracking-[0.2em] uppercase mt-2">{lightboxIndex + 1} &mdash; {images.length}</p>
+              </div>
             </div>
           </div>
         )

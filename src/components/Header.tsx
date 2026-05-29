@@ -15,12 +15,20 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   const lastYRef = useRef(0);
   const tickingRef = useRef(false);
   const lastHiddenRef = useRef(false);
   const lastScrolledRef = useRef(false);
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    update();
+    window.addEventListener("resize", update, { passive: true } as AddEventListenerOptions);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     lastYRef.current = window.scrollY;
@@ -36,6 +44,10 @@ const Header = () => {
 
       let nextHidden = false;
       if (!mobileOpen) {
+        // Keep navigation always visible on mobile.
+        if (isMobile) {
+          nextHidden = false;
+        } else
         if (y < 24) {
           nextHidden = false;
         } else {
@@ -66,7 +78,7 @@ const Header = () => {
     // Run once on mount/update.
     compute();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [mobileOpen]);
+  }, [mobileOpen, isMobile]);
 
   // If the menu opens, force header visible.
   useEffect(() => {
@@ -92,7 +104,7 @@ const Header = () => {
     <>
       <header
         className={`sticky top-0 z-50 bg-white transition-[transform,box-shadow,border-color] duration-300 ${
-          hidden ? "-translate-y-full" : "translate-y-0"
+          !isMobile && hidden ? "-translate-y-full" : "translate-y-0"
         } ${
           scrolled ? "shadow-md border-b border-border/40" : "border-b border-black/5"
         }`}
@@ -136,8 +148,8 @@ const Header = () => {
               aria-controls="mobile-menu"
               aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             >
-              {mobileOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
-            </button>
+                {mobileOpen ? <X className="w-7 h-7" strokeWidth={1.5} /> : <Menu className="w-7 h-7" strokeWidth={1.5} />}
+              </button>
           </div>
         </div>
       </header>
