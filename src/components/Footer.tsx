@@ -1,19 +1,52 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instagram, Facebook, ChevronUp } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Footer = () => {
   const footerRef = useScrollReveal();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [loadMap, setLoadMap] = useState(false);
+  const mapMountRef = useRef<HTMLDivElement | null>(null);
+  const showRef = useRef(false);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
-      setShowScrollTop(window.scrollY > window.innerHeight * 0.75);
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      requestAnimationFrame(() => {
+        tickingRef.current = false;
+        const next = window.scrollY > window.innerHeight * 0.75;
+        if (next !== showRef.current) {
+          showRef.current = next;
+          setShowScrollTop(next);
+        }
+      });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const el = mapMountRef.current;
+    if (!el || loadMap) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const anyVisible = entries.some((e) => e.isIntersecting);
+        if (anyVisible) {
+          setLoadMap(true);
+          obs.disconnect();
+        }
+      },
+      // Start loading shortly before it becomes visible.
+      { root: null, rootMargin: "300px 0px", threshold: 0.01 }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [loadMap]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -53,7 +86,7 @@ const Footer = () => {
                   <a href="#catalogo" className="hover:text-black transition-colors">Productos</a>
                 </li>
                 <li>
-                  <a href="#about" className="hover:text-black transition-colors">Sobre Nosotros</a>
+                  <a href="#about" className="hover:text-black transition-colors">Quién Soy</a>
                 </li>
                 <li>
                   <a href="#faq" className="hover:text-black transition-colors">FAQ</a>
@@ -107,18 +140,29 @@ const Footer = () => {
 
           {/* Right Column: Mini Map & Privacy Policy */}
           <div className="lg:pl-12 flex flex-col justify-between">
-            <div className="w-full">
-              <iframe 
-                src="https://maps.google.com/maps?q=Ituzaing%C3%B3,%20Buenos%20Aires,%20Argentina&t=&z=14&ie=UTF8&iwloc=&output=embed" 
-                width="100%" 
-                height="150" 
-                style={{ border: 0 }} 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                className="rounded-lg shadow-sm border border-black/5"
-                title="Mapa de ubicación en Ituzaingó"
-              ></iframe>
+            <div className="w-full" ref={mapMountRef}>
+              {loadMap ? (
+                <iframe
+                  src="https://maps.google.com/maps?q=Ituzaing%C3%B3,%20Buenos%20Aires,%20Argentina&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="150"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="rounded-lg shadow-sm border border-black/5"
+                  title="Mapa de ubicación en Ituzaingó"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setLoadMap(true)}
+                  className="w-full h-[150px] rounded-lg border border-black/10 bg-white/20 backdrop-blur-sm text-gray-900/80 text-xs font-sans tracking-[0.14em] uppercase hover:bg-white/30 transition-colors"
+                  aria-label="Cargar mapa"
+                >
+                  Ver mapa
+                </button>
+              )}
             </div>
             <div className="mt-4 text-center lg:text-left">
               <a

@@ -3,24 +3,24 @@ import flavorChoco from "@/assets/flavor-choco-cake.jpg";
 import flavorRedvelvet from "@/assets/flavor-redvelvet.jpg";
 import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 
-const flavors = [
-  { 
-    subtitle: "RECETA ARTESANAL",
-    name: "Vainilla\n&\nCanelo", 
+const features = [
+  {
+    title: "Ingredientes frescos, sin conservantes",
+    description: "Usamos productos de calidad, seleccionados para que cada bocado sea rico y natural.",
     image: flavorVanilla,
-    bgColor: "bg-[#f28b66]"
+    bgClass: "bg-[#f28b66]"
   },
-  { 
-    subtitle: "RECETA ARTESANAL",
-    name: "Chocolate\nIntenso\n70%", 
+  {
+    title: "Diseño personalizado para cada ocasión",
+    description: "Desde cumpleaños hasta baby showers, cada torta es única.",
     image: flavorChoco,
-    bgColor: "bg-[#bca68e]"
+    bgClass: "bg-[#bca68e]"
   },
-  { 
-    subtitle: "RECETA ARTESANAL",
-    name: "Red Velvet\nClásico", 
+  {
+    title: "Elaboración artesanal y profesionalismo",
+    description: "Hecho a mano con dedicación, como en una pastelería de barrio de toda la vida.",
     image: flavorRedvelvet,
-    bgColor: "bg-[#f8b2cc]"
+    bgClass: "bg-[#f8b2cc]"
   },
 ];
 
@@ -32,36 +32,31 @@ const FlavorsSection = () => {
     <section className="py-24 md:py-32 bg-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <div ref={titleRef} className="text-center mb-16 md:mb-20">
-          <h2 className="font-serif text-4xl md:text-[2.75rem] text-[#1a1a1a] mb-5">Sabores de la Casa</h2>
+          <h2 className="font-serif text-4xl md:text-[2.75rem] text-[#1a1a1a] mb-5">Mi compromiso con cada torta</h2>
           <p className="text-gray-500 text-sm font-sans max-w-2xl mx-auto leading-relaxed">
-            Tres clásicos que siempre vuelven. Combinaciones equilibradas, ingredientes premium y ese toque casero que se nota en cada bocado.
+            En cada torta pongo dedicación, ingredientes de calidad y un diseño pensado especialmente para vos. Conocé lo que me hace diferente.
           </p>
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {flavors.map((f, i) => (
-            <div key={i} className={`${f.bgColor} h-[500px] md:h-[600px] relative overflow-hidden flex flex-col group`}>
+          {features.map((feature, i) => (
+            <div key={i} className={`${feature.bgClass} h-[500px] md:h-[600px] relative overflow-hidden flex flex-col group`}>
               <div className="p-8 md:p-10 z-10 relative">
-                <span className="text-white/90 text-[10px] font-semibold tracking-[0.15em] uppercase font-sans mb-4 block">
-                  {f.subtitle}
-                </span>
-                <h3 className="font-serif text-4xl lg:text-[2.75rem] text-white leading-[1.1] mb-8 whitespace-pre-line">
-                  {f.name}
-                </h3>
-                <a
-                  href="https://wa.me/5491125419191"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white uppercase text-[11px] font-bold tracking-[0.15em] border-b-2 border-white/80 pb-1 hover:border-white transition-colors inline-block"
+                <div
+                  className="text-white text-lg lg:text-xl font-semibold font-sans mb-4"
                 >
-                  PEDIR AHORA
-                </a>
+                  {feature.title}
+                </div>
+                <p className="font-sans text-xs lg:text-sm text-white/90 leading-relaxed mb-8">
+                  {feature.description}
+                </p>
+
               </div>
-              
+
               <div className="absolute bottom-0 left-0 w-full h-[55%] md:h-[60%] overflow-hidden">
                 <img
-                  src={f.image}
-                  alt={f.name.replaceAll("\n", " ")}
+                  src={feature.image}
+                  alt={feature.title.replaceAll("\n", " ")}
                   loading="lazy"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />

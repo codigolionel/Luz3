@@ -14,8 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],
-        serif: ["Jost", "sans-serif"],
+        // Both are sans-serif families; keep Tailwind's `sans/serif` keys aligned
+        // with how the project uses them (body vs headings) to avoid confusion.
+        sans: ["Jost", "sans-serif"],
+        serif: ["Poppins", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

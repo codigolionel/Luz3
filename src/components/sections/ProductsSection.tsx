@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { X } from "lucide-react";
 
 import ProductCard from "@/components/sections/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
-
-/* ── Register GSAP plugins ── */
-gsap.registerPlugin(ScrollTrigger);
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import type { Product } from "@/data/types";
 
 const ALL_LABEL = "Todos";
 
@@ -15,11 +13,10 @@ const ProductsSection = () => {
   const [activeCategory, setActiveCategory] = useState(ALL_LABEL);
   const { products: allProducts } = useProducts();
   const didAutoSelectRef = useRef(false);
+  const [activeProduct, setActiveProduct] = useState<Product | null>(null);
 
-  /* Refs for GSAP */
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const filtersRef = useRef<HTMLDivElement>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>();
+  const filtersRef = useScrollReveal<HTMLDivElement>({ delay: 120 });
 
   /* ── Filtered products (memoized) ── */
   const filteredProducts = useMemo(
@@ -46,49 +43,25 @@ const ProductsSection = () => {
     }
   }, [categories]);
 
-  /* ── GSAP Scroll Animations ── */
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      /* Header reveal */
-      if (headerRef.current) {
-        gsap.from(headerRef.current.children, {
-          y: 50,
-          opacity: 0,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
+    if (!activeProduct) return;
 
-      /* Filters reveal */
-      if (filtersRef.current) {
-        gsap.from(filtersRef.current, {
-          y: 30,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: filtersRef.current,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-    }, sectionRef);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveProduct(null);
+    };
 
-    return () => ctx.revert();
-  }, []);
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [activeProduct]);
 
   return (
     <section
-      ref={sectionRef}
       id="catalogo"
-      className="relative overflow-hidden bg-cream pt-8 md:pt-12 pb-24 md:pb-32"
+      className="relative overflow-hidden bg-cream pt-20 md:pt-48 pb-24 md:pb-32"
     >
       {/* ── Decorative background elements ── */}
       <div className="pointer-events-none absolute -left-40 top-20 h-[500px] w-[500px] rounded-full bg-rose/[0.04] blur-3xl" />
@@ -130,11 +103,10 @@ const ProductsSection = () => {
                   onClick={() => setActiveCategory(cat)}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`relative rounded-full px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors md:text-xs ${
-                    isActive
-                      ? "bg-chocolate text-white shadow-md shadow-chocolate/20"
-                      : "text-chocolate/70 hover:text-chocolate"
-                  }`}
+                  className={`relative rounded-full px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors md:text-xs ${isActive
+                    ? "bg-chocolate text-white shadow-md shadow-chocolate/20"
+                    : "text-chocolate/70 hover:text-chocolate"
+                    }`}
                 >
                   {cat}
 
@@ -178,7 +150,6 @@ const ProductsSection = () => {
 
         {/* ── Product Grid ── */}
         <motion.div
-          layout
           className="grid grid-cols-2 gap-4 sm:gap-8 lg:gap-12 sm:grid-cols-2 lg:grid-cols-3"
         >
           <AnimatePresence mode="popLayout">
@@ -187,10 +158,86 @@ const ProductsSection = () => {
                 key={product.id}
                 product={product}
                 index={index}
+                onOpen={setActiveProduct}
               />
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* ── Product Modal ── */}
+        <AnimatePresence>
+          {activeProduct ? (
+            <motion.div
+              className="fixed inset-0 z-[120]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <button
+                type="button"
+                className="absolute inset-0 bg-black/65 backdrop-blur-sm"
+                aria-label="Cerrar"
+                onClick={() => setActiveProduct(null)}
+              />
+
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center p-4 sm:p-6"
+                initial={{ y: 12, opacity: 0, scale: 0.98 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 10, opacity: 0, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 520, damping: 44 }}
+              >
+                <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/10">
+                  <button
+                    type="button"
+                    onClick={() => setActiveProduct(null)}
+                    aria-label="Cerrar"
+                    className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/85 text-chocolate shadow-sm ring-1 ring-black/10 backdrop-blur transition-colors hover:bg-white"
+                  >
+                    <X className="h-5 w-5" strokeWidth={1.75} />
+                  </button>
+
+                  <div className="relative aspect-[3/4] bg-cream">
+                    <img
+                      src={activeProduct.image}
+                      alt={activeProduct.title}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-5 right-16">
+                      <p className="inline-flex rounded-full bg-white/10 px-3 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-white/90 ring-1 ring-white/15 backdrop-blur">
+                        {activeProduct.category}
+                      </p>
+                      <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-white">
+                        {activeProduct.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="p-6 sm:p-7">
+                    <p className="font-sans text-sm font-light leading-relaxed text-foreground/70">
+                      {activeProduct.description}
+                    </p>
+
+                    <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                      <a
+                        href={`https://wa.me/5491125419191?text=${encodeURIComponent(
+                          `Hola, quiero hacer una reserva.\n\nProducto: ${activeProduct.title}\n\nQuisiera consultar disponibilidad y coordinar el pedido.`
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-full items-center justify-center rounded-full bg-rose px-7 py-3 font-sans text-[12px] font-bold uppercase tracking-[0.18em] text-white shadow-md transition-colors hover:bg-chocolate"
+                        onClick={() => setActiveProduct(null)}
+                      >
+                        Reserva ya
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
         {/* ── Bottom CTA ── */}
         <motion.div

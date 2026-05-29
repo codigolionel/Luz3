@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
-import heroImg from "@/assets/hero-cakes.png";
+import hero640 from "@/assets/hero-cakes-640.webp";
+import hero1280 from "@/assets/hero-cakes-1280.webp";
+import hero1920 from "@/assets/hero-cakes-1920.webp";
 
 const Hero = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -18,11 +20,15 @@ const Hero = () => {
     <section className="relative h-[calc(100dvh-3.5rem)] md:h-[calc(100dvh-4rem)] min-h-[560px] flex items-center justify-center overflow-hidden pb-16">
       {/* Reserve bottom space for the wave so it doesn't mask the image */}
       <img
-        src={heroImg}
+        src={hero1280}
+        srcSet={`${hero640} 640w, ${hero1280} 1280w, ${hero1920} 1920w`}
+        sizes="(max-width: 768px) 640px, (max-width: 1280px) 1280px, 1920px"
         alt="Tortas de cumpleaños artesanales"
         className="absolute inset-0 bottom-16 w-full h-full object-cover object-center"
         width={1920}
         height={1080}
+        loading="lazy"
+        decoding="async"
       />
       {/* Overlay oscuro sutil para que el texto sea legible, pero sin recuadros */}
       <div className="absolute inset-0 bg-black/40" />
@@ -44,12 +50,12 @@ const Hero = () => {
           <span className="block w-16 h-px bg-white/60" />
         </div>
 
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-6">
+        <h1 className="font-serif text-[52px] md:text-7xl lg:text-8xl text-white leading-tight mb-6">
           Una Torta única,{" "}
           <span className="italic text-green-200 text-shadow-sm">para un momento </span>especial
         </h1>
 
-        <p className="text-white/90 text-sm md:text-lg font-sans max-w-xl mx-auto mb-10 leading-relaxed font-light">
+        <p className="text-white text-lg md:text-lg font-sans max-w-xl mx-auto mb-10 leading-relaxed font-light">
           Diseños únicos para cada festejo. Tortas, cupcakes, popcakes y más — con amor artesanal.
         </p>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import cakeClassic from "@/assets/cake-classic.jpg";
+import cakeClassic from "@/assets/hero-cakes.webp";
 import cupcake from "@/assets/gallery-cupcakes.jpg";
 import cakePop from "@/assets/gallery-cakepops.jpg";
 import oreo from "@/assets/chocolate-covered-oreos.png";
@@ -8,9 +8,16 @@ import icePop from "@/assets/gallery-popsicles.jpg";
 import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 import { ElegantDivider } from "@/components/ui/ElegantDivider";
 
-const products = [
+type ProductShowcase = {
+  title: string;
+  description: string;
+  image: string;
+  color: string;
+  subtitle?: string;
+};
+
+const products: ProductShowcase[] = [
   {
-    subtitle: "RECETA ARTESANAL",
     title: "Torta",
     description:
       "Capas suaves y rellenos caseros preparados a mano, con decoraciones delicadas y ese toque artesanal de pastelería de barrio hecha con dedicación.",
@@ -18,7 +25,6 @@ const products = [
     color: "bg-[#F28B66]",
   },
   {
-    subtitle: "RECETA ARTESANAL",
     title: "Cupcake",
     description:
       "Pequeños bocados esponjosos con toppings cremosos y detalles únicos, ideales para compartir momentos dulces y especiales.",
@@ -26,7 +32,6 @@ const products = [
     color: "bg-[#BCA68E]",
   },
   {
-    subtitle: "RECETA ARTESANAL",
     title: "Cake pop",
     description:
       "Bizcochuelo húmedo cubierto en chocolate y decorado a mano, combinando sabor casero y presentación divertida.",
@@ -34,7 +39,6 @@ const products = [
     color: "bg-[#F8B2CC]",
   },
   {
-    subtitle: "RECETA ARTESANAL",
     title: "Oreo bañadas",
     description:
       "Galletitas bañadas en chocolate con terminaciones artesanales y diseños dulces que hacen cada pieza distinta y especial.",
@@ -42,7 +46,6 @@ const products = [
     color: "bg-[#C7E35E]",
   },
   {
-    subtitle: "RECETA ARTESANAL",
     title: "Ice pop",
     description:
       "Paletas heladas artesanales con sabores frescos, colores suaves y una presentación pensada para disfrutar algo rico y simple.",
@@ -107,11 +110,13 @@ const ProductSection = () => {
 
                   {/* Bottom solid block */}
                   <div className={`${p.color} h-[52%] px-8 pt-8 pb-7 text-white`}>
-                    <span className="block font-sans text-[10px] font-semibold tracking-[0.18em] uppercase text-white/90">
-                      {p.subtitle}
-                    </span>
+                    {p.subtitle ? (
+                      <span className="block font-sans text-[10px] font-semibold tracking-[0.18em] uppercase text-white/90">
+                        {p.subtitle}
+                      </span>
+                    ) : null}
 
-                    <h3 className="mt-6 font-sans text-[44px] leading-[1.05] tracking-tight text-white">
+                    <h3 className={`${p.subtitle ? "mt-6" : "mt-0"} font-sans text-[44px] leading-[1.05] tracking-tight text-white`}>
                       {p.title}
                     </h3>
 
@@ -122,7 +127,7 @@ const ProductSection = () => {
                       className="mt-6 inline-block font-sans text-[11px] font-bold tracking-[0.16em] uppercase text-white/90 border-b-2 border-white/70 pb-1 hover:border-white transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      PEDIR AHORA
+
                     </a>
 
                     <p className="mt-5 font-sans text-xs leading-relaxed text-white/85">

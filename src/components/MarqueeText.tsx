@@ -6,15 +6,22 @@ const SEPARATOR = "   ";
 const ITEMS = Array(12).fill(`${WORD} ${SEPARATOR} `).join("");
 
 const MarqueeText = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const track1 = useRef<HTMLDivElement>(null);
   const track2 = useRef<HTMLDivElement>(null);
   const raf = useRef<number>(0);
   const offset = useRef(0);
+  const isVisible = useRef(true);
 
   useEffect(() => {
-    const speed = 2; // px per frame
+    const speed = 0.8; // px per frame
 
     const animate = () => {
+      if (!isVisible.current) {
+        raf.current = 0;
+        return;
+      }
+
       offset.current -= speed;
 
       const w = track1.current?.offsetWidth ?? 0;
@@ -29,13 +36,30 @@ const MarqueeText = () => {
       raf.current = requestAnimationFrame(animate);
     };
 
+    // Only animate when visible on screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting;
+        if (entry.isIntersecting && !raf.current) {
+          raf.current = requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
+
     raf.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf.current);
+    return () => {
+      cancelAnimationFrame(raf.current);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div
-      className="relative overflow-hidden py-10 md:py-0 my-0 select-none"
+      ref={containerRef}
+      className="relative overflow-hidden py-10 md:py-0 md:pt-10 my-0 select-none"
       aria-hidden="true"
     >
       {/* Left fade */}

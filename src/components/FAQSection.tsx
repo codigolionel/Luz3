@@ -34,7 +34,7 @@ const FAQSection = () => {
   const toggle = (i: number) => setOpenIndex((prev) => (prev === i ? null : i));
 
   return (
-    <section id="faq" className="pt-24 md:pt-32 pb-12 md:pb-16 bg-background relative overflow-hidden">
+    <section id="faq" className="pt-12 md:pt-12 pb-2 md:pb-6 bg-background relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-gold/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
@@ -64,9 +64,8 @@ const FAQSection = () => {
                   </div>
                 </button>
                 <div
-                  className={`grid transition-all duration-300 ease-in-out ${
-                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                  }`}
+                  className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
                 >
                   <div className="overflow-hidden">
                     <p className="px-6 pb-8 text-[15px] md:text-sm text-foreground/70 font-sans font-light leading-relaxed">

@@ -1,5 +1,5 @@
 [
-  { "_comment": "═══ TORTAS — 9 productos (60%) ═══" },
+  { "_comment": "═══ TORTAS — 10 productos ═══" },
 
   {
     "id": 1,
@@ -63,6 +63,14 @@
     "description": "Elegancia pura en cada detalle. Diseño premium inspirado en el lujo para tu festejo.",
     "category": "Tortas",
     "image": "/images/products/Cami.webp"
+  },
+
+  {
+    "id": 16,
+    "title": "Torta Gamer Personalizada",
+    "description": "Level up en los festejos. Torta temática gamer hecha con dedicación y detalles únicos.",
+    "category": "Tortas",
+    "image": "/images/products/liam.webp"
   },
 
   { "_comment": "═══ CUPCAKES — 2 productos (15%) ═══" },
