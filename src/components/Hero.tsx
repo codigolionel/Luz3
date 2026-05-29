@@ -42,7 +42,7 @@ const Hero = () => {
           transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div className="flex items-center justify-center gap-4 mb-6">
+        <div className="flex items-center justify-center gap-1 mb-6">
           <span className="block w-16 h-px bg-white/60" />
           <span className="text-white/80 text-xs tracking-[0.3em] uppercase font-sans">
             Tortas Artesanales
@@ -50,7 +50,7 @@ const Hero = () => {
           <span className="block w-16 h-px bg-white/60" />
         </div>
 
-        <h1 className="font-serif text-[52px] md:text-7xl lg:text-8xl text-white leading-tight mb-6">
+        <h1 className="font-serif text-[52px] md:text-7xl lg:text-7xl text-white leading-tight mb-6">
           Una Torta única,{" "}
           <span className="italic text-green-200 text-shadow-sm">para un momento </span>especial
         </h1>

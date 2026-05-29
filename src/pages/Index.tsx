@@ -20,12 +20,12 @@ const Index = () => (
 
     <main id="main-content">
       <Hero />
+      <ProductSection />
+      <OffersSection />
       <AboutSection />
       <FlavorsSection />
-      <ProductSection />
       <ProductsSection />
       <PromoBanner />
-      <OffersSection />
       <GallerySection />
       <MarqueeText />
       <CommunitySection />
