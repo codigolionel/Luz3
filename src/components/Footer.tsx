@@ -226,8 +226,10 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="border-t border-white/15 mt-12 pt-8 text-center">
-          <p className="text-white/80 text-[10px] font-sans">
-            © {new Date().getFullYear()} Luz de Rosa. All rights reserved.
+          <p className="text-white/80 text-[15px] font-sans">
+            © {new Date().getFullYear()} Linel. Todos los derechos reservados.|<a href="https://linel.com.ar">Linel.com.ar</a>
+
+
           </p>
         </div>
       </motion.div>

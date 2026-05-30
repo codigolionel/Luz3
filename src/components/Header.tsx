@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import type React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Facebook, Instagram, Menu, X } from "lucide-react";
 import logo from "@/assets/logo.webp";
@@ -17,6 +18,35 @@ const Header = () => {
   const [hidden, setHidden] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleAnchorClick = (href: string, afterClose?: () => void) =>
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!href.startsWith("#")) return;
+      e.preventDefault();
+
+      const doScroll = () => {
+        if (href === "#") scrollToTop();
+        else scrollToId(href.slice(1));
+      };
+
+      if (afterClose) {
+        afterClose();
+        // Let the UI close before scrolling.
+        requestAnimationFrame(doScroll);
+      } else {
+        doScroll();
+      }
+    };
 
   const lastYRef = useRef(0);
   const tickingRef = useRef(false);
@@ -108,7 +138,12 @@ const Header = () => {
           }`}
       >
         <div className="container mx-auto px-6 flex items-center justify-between h-20 md:h-16">
-          <a href="#" className="flex items-center h-full py-0 my-0" aria-label="Ir al inicio">
+          <a
+            href="#"
+            className="flex items-center h-full py-0 my-0"
+            aria-label="Ir al inicio"
+            onClick={handleAnchorClick("#")}
+          >
             <img
               src={logo}
               alt="Luz de Rosa"
@@ -124,6 +159,7 @@ const Header = () => {
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                 className="rounded-full px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-chocolate/80 transition-colors hover:bg-rose hover:text-white"
+                onClick={handleAnchorClick(link.href)}
               >
                 {link.label}
               </a>
@@ -225,7 +261,7 @@ const Header = () => {
                         target={link.href.startsWith("http") ? "_blank" : undefined}
                         rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                         className="block text-base font-bold tracking-[0.22em] uppercase text-white/90 transition-colors hover:text-[#F8B2CC]"
-                        onClick={() => setMobileOpen(false)}
+                        onClick={handleAnchorClick(link.href, () => setMobileOpen(false))}
                         variants={{
                           hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10, filter: "blur(2px)" },
                           show: prefersReducedMotion
