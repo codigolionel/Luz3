@@ -17,27 +17,12 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
     const el = ref.current;
     if (!el) return;
 
-    // Set initial hidden state
-    el.style.opacity = "0";
-    el.style.transform = "translateY(40px)";
-    el.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options?.delay ?? 0}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options?.delay ?? 0}ms`;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.style.opacity = "1";
-          el.style.transform = "translateY(0)";
-          observer.unobserve(el);
-        }
-      },
-      {
-        threshold: options?.threshold ?? 0.1,
-        rootMargin: options?.rootMargin ?? "0px 0px -60px 0px",
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
+    // Scroll reveal animations disabled: ensure content is visible
+    // and avoid IntersectionObserver / transitions.
+    el.style.opacity = "1";
+    el.style.transform = "none";
+    el.style.transition = "";
+    el.style.willChange = "";
   }, [options?.threshold, options?.rootMargin, options?.delay]);
 
   return ref;
@@ -60,30 +45,14 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
     const container = ref.current;
     if (!container) return;
 
+    // Stagger reveal animations disabled: ensure children are visible.
     const children = container.querySelectorAll<HTMLElement>(childSelector);
-    const stagger = options?.staggerMs ?? 100;
-
-    children.forEach((child, i) => {
-      child.style.opacity = "0";
-      child.style.transform = "translateY(30px)";
-      child.style.transition = `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * stagger}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * stagger}ms`;
+    children.forEach((child) => {
+      child.style.opacity = "1";
+      child.style.transform = "none";
+      child.style.transition = "";
+      child.style.willChange = "";
     });
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          children.forEach((child) => {
-            child.style.opacity = "1";
-            child.style.transform = "translateY(0)";
-          });
-          observer.unobserve(container);
-        }
-      },
-      { threshold: options?.threshold ?? 0.1 }
-    );
-
-    observer.observe(container);
-    return () => observer.disconnect();
   }, [childSelector, options?.threshold, options?.staggerMs]);
 
   return ref;

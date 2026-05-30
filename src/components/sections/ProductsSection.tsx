@@ -1,35 +1,44 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-
 import ProductCard from "@/components/sections/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import type { Product } from "@/data/types";
 
 const ALL_LABEL = "Todos";
+const HIDDEN_CATEGORIES = new Set(["Oreos Bañadas"]);
 
 const ProductsSection = () => {
   const [activeCategory, setActiveCategory] = useState(ALL_LABEL);
   const { products: allProducts } = useProducts();
   const didAutoSelectRef = useRef(false);
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+  const didPushModalStateRef = useRef(false);
+  const isModalOpenRef = useRef(false);
 
   const headerRef = useScrollReveal<HTMLDivElement>();
   const filtersRef = useScrollReveal<HTMLDivElement>({ delay: 120 });
 
   /* ── Filtered products (memoized) ── */
-  const filteredProducts = useMemo(
-    () =>
-      activeCategory === ALL_LABEL
-        ? allProducts
-        : allProducts.filter((p) => p.category === activeCategory),
-    [activeCategory, allProducts]
-  );
+  const filteredProducts = useMemo(() => {
+    const visibleProducts = allProducts.filter(
+      (p) => !HIDDEN_CATEGORIES.has(p.category)
+    );
+
+    return activeCategory === ALL_LABEL
+      ? visibleProducts
+      : visibleProducts.filter((p) => p.category === activeCategory);
+  }, [activeCategory, allProducts]);
 
   /* ── Derive unique categories from data ── */
   const categories = useMemo(
-    () => [...Array.from(new Set(allProducts.map((p) => p.category))), ALL_LABEL],
+    () => [
+      ...Array.from(
+        new Set(allProducts.map((p) => p.category).filter((c) => !HIDDEN_CATEGORIES.has(c)))
+      ),
+      ALL_LABEL,
+    ],
     [allProducts]
   );
 
@@ -46,17 +55,51 @@ const ProductsSection = () => {
   useEffect(() => {
     if (!activeProduct) return;
 
+    // Let the browser back button close the modal (mobile expected behavior).
+    // We don't change the URL, we only push a new history entry.
+    if (!didPushModalStateRef.current) {
+      history.pushState({ __productsModal: true }, "");
+      didPushModalStateRef.current = true;
+    }
+
+    isModalOpenRef.current = true;
+
+    const onPopState = () => {
+      if (!isModalOpenRef.current) return;
+      didPushModalStateRef.current = false;
+      isModalOpenRef.current = false;
+      setActiveProduct(null);
+    };
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setActiveProduct(null);
     };
 
     document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("popstate", onPopState);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("popstate", onPopState);
       document.body.style.overflow = "";
+      isModalOpenRef.current = false;
     };
   }, [activeProduct]);
+
+  const closeActiveProduct = () => {
+    // If we pushed a history entry for the modal, go back so the browser history
+    // stays consistent and the user can keep navigating normally.
+    if (didPushModalStateRef.current) {
+      didPushModalStateRef.current = false;
+      isModalOpenRef.current = false;
+      setActiveProduct(null);
+      history.back();
+      return;
+    }
+
+    isModalOpenRef.current = false;
+    setActiveProduct(null);
+  };
 
   return (
     <section
@@ -71,21 +114,16 @@ const ProductsSection = () => {
       <div className="container relative z-10 mx-auto px-6">
         {/* ── Section Header ── */}
         <div ref={headerRef} className="mb-16 md:mb-20 text-center">
-          <span className="font-sans text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+          <span className="font-sans text-base font-semibold uppercase tracking-[0.3em] text-gold">
             Catálogo
           </span>
           <h2 className="mt-4 font-serif text-4xl text-chocolate md:text-5xl lg:text-6xl">
             Nuestros Productos
           </h2>
 
-          {/* Elegant divider */}
-          <div className="my-6 flex items-center justify-center gap-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent via-gold/50 to-gold/50" />
-            <div className="h-1.5 w-1.5 rotate-45 rounded-[2px] bg-gold/60" />
-            <div className="h-px w-12 bg-gradient-to-l from-transparent via-gold/50 to-gold/50" />
-          </div>
+          <div className="my-6" />
 
-          <p className="mx-auto max-w-xl font-sans text-sm font-light leading-relaxed text-foreground/60 md:text-base">
+          <p className="mx-auto max-w-xl font-sans text-lg font-light leading-relaxed text-foreground/60 md:text-base lg:text-lg">
             Cada creación es elaborada artesanalmente con ingredientes premium.
             Descubrí nuestra selección y encontrá la pieza perfecta para tu
             momento especial.
@@ -177,7 +215,7 @@ const ProductsSection = () => {
                 type="button"
                 className="absolute inset-0 bg-black/65 backdrop-blur-sm"
                 aria-label="Cerrar"
-                onClick={() => setActiveProduct(null)}
+                onClick={closeActiveProduct}
               />
 
               <motion.div
@@ -187,39 +225,39 @@ const ProductsSection = () => {
                 exit={{ y: 10, opacity: 0, scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 520, damping: 44 }}
               >
-                <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/10">
+                <div className="relative flex w-full max-w-lg md:max-w-3xl max-h-[90vh] min-h-0 flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/10 md:max-h-[85vh] md:flex-row">
                   <button
                     type="button"
-                    onClick={() => setActiveProduct(null)}
+                    onClick={closeActiveProduct}
                     aria-label="Cerrar"
                     className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/85 text-chocolate shadow-sm ring-1 ring-black/10 backdrop-blur transition-colors hover:bg-white"
                   >
                     <X className="h-5 w-5" strokeWidth={1.75} />
                   </button>
 
-                  <div className="relative aspect-[3/4] bg-cream">
+                  <div className="relative h-[38vh] w-full bg-cream sm:h-[45vh] md:h-[85vh] md:w-1/2">
                     <img
                       src={activeProduct.image}
                       alt={activeProduct.title}
                       className="h-full w-full object-cover"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    <div className="absolute bottom-4 left-5 right-16">
-                      <p className="inline-flex rounded-full bg-white/10 px-3 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-white/90 ring-1 ring-white/15 backdrop-blur">
-                        {activeProduct.category}
-                      </p>
-                      <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-white">
-                        {activeProduct.title}
-                      </h3>
-                    </div>
                   </div>
 
-                  <div className="p-6 sm:p-7">
-                    <p className="font-sans text-sm font-light leading-relaxed text-foreground/70">
+                  <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-6 sm:p-7 md:w-1/2">
+                    <p className="inline-flex w-fit rounded-full bg-rose/10 px-3 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-rose ring-1 ring-rose/15">
+                      {activeProduct.category}
+                    </p>
+
+                    <h3 className="mt-4 font-serif text-2xl font-semibold leading-tight text-chocolate sm:text-3xl">
+                      {activeProduct.title}
+                    </h3>
+
+                    <p className="mt-4 font-sans text-sm font-light leading-relaxed text-foreground/70 sm:text-base">
                       {activeProduct.description}
                     </p>
 
-                    <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div className="mt-8">
                       <a
                         href={`https://wa.me/5491125419191?text=${encodeURIComponent(
                           `Hola, quiero hacer una reserva.\n\nProducto: ${activeProduct.title}\n\nQuisiera consultar disponibilidad y coordinar el pedido.`
@@ -227,7 +265,7 @@ const ProductsSection = () => {
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex w-full items-center justify-center rounded-full bg-rose px-7 py-3 font-sans text-[12px] font-bold uppercase tracking-[0.18em] text-white shadow-md transition-colors hover:bg-chocolate"
-                        onClick={() => setActiveProduct(null)}
+                        onClick={closeActiveProduct}
                       >
                         Reserva ya
                       </a>
@@ -256,7 +294,7 @@ const ProductsSection = () => {
             rel="noreferrer"
             className="mt-4 inline-block rounded-full bg-chocolate px-10 py-4 font-sans text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-chocolate/20 transition-all duration-300 hover:bg-rose hover:shadow-rose/20"
           >
-            Hacé tu pedido personalizado
+            Contame tu idea y lo armamos.
           </a>
         </motion.div>
       </div>

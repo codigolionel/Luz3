@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
+import { motion } from "framer-motion";
 import { ElegantDivider } from "@/components/ui/ElegantDivider";
 
-import flavorChoco from "@/assets/flavor-choco-cake.jpg";
+import galBack from "@/assets/gal-back.webp";
 
 import amongUs from "@/assets/among-us.webp";
 import batman from "@/assets/batman.webp";
@@ -32,10 +32,6 @@ const images: { src: string; alt: string; fit?: "contain" | "cover"; className?:
 
 const GallerySection = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const titleRef = useScrollReveal();
-  const gridRef = useStaggerReveal(":scope > div", { staggerMs: 60 });
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const bgRef = useRef<HTMLDivElement | null>(null);
 
   const close = () => setLightboxIndex(null);
   const prev = useCallback(() => setLightboxIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : null)), []);
@@ -56,52 +52,12 @@ const GallerySection = () => {
     };
   }, [lightboxIndex, prev, next]);
 
-  useEffect(() => {
-    const sectionEl = sectionRef.current;
-    const bgEl = bgRef.current;
-    if (!sectionEl || !bgEl) return;
-
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches) return;
-
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const rect = sectionEl.getBoundingClientRect();
-      const vh = window.innerHeight || 0;
-      // Progress: 0 when section top hits bottom of viewport, 1 when bottom hits top.
-      const total = rect.height + vh;
-      const progressed = (vh - rect.top) / (total || 1);
-      const clamped = Math.max(0, Math.min(1, progressed));
-
-      // Subtle parallax range in px.
-      const offset = (clamped - 0.5) * 60;
-      bgEl.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(1.05)`;
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="gallery" className="pt-16 pb-24 md:pt-20 md:pb-32 bg-white text-primary-foreground relative overflow-hidden">
+    <section id="gallery" className="pt-16 pb-24 md:pt-20 md:pb-32 bg-white text-primary-foreground relative overflow-hidden">
       {/* Background image (parallax-like fixed on md+) */}
       <div
-        ref={bgRef}
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-65 saturate-[1.25] contrast-[1.1] will-change-transform"
-        style={{ backgroundImage: `url(${flavorChoco})` }}
+        style={{ backgroundImage: `url(${galBack})` }}
         aria-hidden="true"
       />
 
@@ -112,21 +68,38 @@ const GallerySection = () => {
       />
 
       <div className="container mx-auto px-6 lg:px-12 relative">
-        <div ref={titleRef} className="text-center mb-16 md:mb-20 relative z-10">
-          <span className="text-gold text-xs font-semibold tracking-[0.3em] uppercase font-sans">Galería</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-white mt-4">Inspiración Dulce</h2>
+        <div className="text-center mb-16 md:mb-20 relative z-10">
+          <motion.h2
+            className="font-serif text-4xl md:text-5xl text-white mt-4"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            Mi trabajo
+          </motion.h2>
+          <motion.p
+            className="text-gold text-xs font-semibold tracking-[0.3em] uppercase font-sans mt-3"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+          >
+            Galería
+          </motion.p>
           <ElegantDivider />
         </div>
 
-        <div
-          ref={gridRef}
-          className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-6 relative z-10 max-w-6xl mx-auto"
-        >
+        <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-6 relative z-10 max-w-6xl mx-auto">
           {images.map((img, i) => (
-            <div
+            <motion.div
               key={i}
               className={`relative rounded-none overflow-hidden group cursor-pointer aspect-[3/4] bg-white/10 ${img.className ?? ""}`}
               onClick={() => setLightboxIndex(i)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.12 }}
             >
               <div className="absolute inset-2 border border-white/40 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <img
@@ -136,7 +109,7 @@ const GallerySection = () => {
                 className={`w-full h-full ${img.fit === "cover" ? "object-cover" : "object-contain"} group-hover:scale-[1.02] transition-transform duration-700 filter brightness-95 group-hover:brightness-100`}
               />
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
+            </motion.div>
           ))}
         </div>
 

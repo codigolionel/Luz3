@@ -78,16 +78,37 @@
   {
     "id": 10,
     "title": "Cupcakes Gourmet de Vainilla",
-    "description": "Docena de cupcakes con buttercream de vainilla bourbon y sprinkles artesanales.",
+    "description": "Cupcakes gourmet con crema y decoración artesanal. Cantidad a elección.",
     "category": "Cupcakes",
-    "image": "/images/producto-bellaria.png"
+    "image": "/images/products/cupcakes/Lilo-y-Stitch.webp"
   },
   {
     "id": 11,
     "title": "Cupcakes Red Velvet Premium",
-    "description": "Docena de cupcakes red velvet con frosting de queso crema y corazones de fondant.",
+    "description": "Cupcakes premium con decoración personalizada, ideales para eventos. Cantidad a elección.",
     "category": "Cupcakes",
-    "image": "/images/producto-bellaria.png"
+    "image": "/images/products/cupcakes/Mickey-Rey.webp"
+  },
+  {
+    "id": 17,
+    "title": "Cupcakes Temáticos Minions",
+    "description": "Cupcakes temáticos con decoración personalizada, ideales para cumpleaños infantiles. Cantidad a elección.",
+    "category": "Cupcakes",
+    "image": "/images/products/cupcakes/minions.webp"
+  },
+  {
+    "id": 18,
+    "title": "Cupcakes Panda",
+    "description": "Cupcakes con decoración artesanal estilo panda, perfectos para mesas dulces y celebraciones.",
+    "category": "Cupcakes",
+    "image": "/images/products/cupcakes/panda.webp"
+  },
+  {
+    "id": 19,
+    "title": "Cupcakes Stumble Guys",
+    "description": "Cupcakes temáticos con detalles a pedido para festejos gamer e infantiles.",
+    "category": "Cupcakes",
+    "image": "/images/products/cupcakes/videojuego-Stumble-Guys.webp"
   },
 
   { "_comment": "═══ POPCAKES — 2 productos (13%) ═══" },
@@ -95,16 +116,30 @@
   {
     "id": 12,
     "title": "Popcakes Clásicos",
-    "description": "Set de 12 popcakes bañados en chocolate con decoración personalizada.",
+    "description": "Popcakes bañados en chocolate con decoración personalizada. Cantidad a elección.",
     "category": "Popcakes",
-    "image": "/images/producto-bellaria.png"
+    "image": "/images/products/popcakes/Colores.webp"
   },
   {
     "id": 13,
     "title": "Popcakes de Chocolate Blanco",
-    "description": "Set de 12 popcakes con cobertura de chocolate blanco y topping de frutos secos.",
+    "description": "Popcakes con cobertura y decoración artesanal. Cantidad a elección.",
     "category": "Popcakes",
-    "image": "/images/producto-bellaria.png"
+    "image": "/images/products/popcakes/flores.webp"
+  },
+  {
+    "id": 20,
+    "title": "Popcakes Halloween",
+    "description": "Popcakes temáticos para Halloween, con detalles artesanales y colores de temporada. Cantidad a elección.",
+    "category": "Popcakes",
+    "image": "/images/products/popcakes/halloween.webp"
+  },
+  {
+    "id": 21,
+    "title": "Popcakes Rosa y Blanco",
+    "description": "Popcakes con paleta rosa y blanco, ideales para baby showers y celebraciones delicadas.",
+    "category": "Popcakes",
+    "image": "/images/products/popcakes/rosayblanco.webp"
   },
 
   { "_comment": "═══ OREOS BAÑADAS — 1 producto (7%) ═══" },
@@ -122,8 +157,29 @@
   {
     "id": 15,
     "title": "Ice Pop Artesanal",
-    "description": "Set de 6 paletas heladas artesanales con frutas naturales y cobertura de chocolate.",
+    "description": "Paletas heladas artesanales con decoración personalizada. Cantidad a elección.",
     "category": "Ice Pop",
-    "image": "/images/producto-bellaria.png"
+    "image": "/images/products/ice-pop/Calamar.webp"
+  },
+  {
+    "id": 22,
+    "title": "Ice Pop Capibara",
+    "description": "Paletas heladas artesanales con decoración temática capibara, ideales para eventos.",
+    "category": "Ice Pop",
+    "image": "/images/products/ice-pop/capibara.webp"
+  },
+  {
+    "id": 23,
+    "title": "Ice Pop Rosa",
+    "description": "Ice pops artesanales con estética rosa y detalles delicados para mesas dulces.",
+    "category": "Ice Pop",
+    "image": "/images/products/ice-pop/color-rosa.webp"
+  },
+  {
+    "id": 24,
+    "title": "Ice Pop Maravilla",
+    "description": "Ice pops temáticos con decoración inspirada en superhéroes, hechos artesanalmente.",
+    "category": "Ice Pop",
+    "image": "/images/products/ice-pop/maravilla.webp"
   }
 ]

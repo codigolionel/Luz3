@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import cakeClassic from "@/assets/hero-cakes.webp";
-import cupcake from "@/assets/gallery-cupcakes.jpg";
-import cakePop from "@/assets/gallery-cakepops.jpg";
-import oreo from "@/assets/chocolate-covered-oreos.png";
-import icePop from "@/assets/gallery-popsicles.jpg";
-import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
+import { motion } from "framer-motion";
+import cakeClassic from "@/assets/hero-cakes1.webp";
+import cupcake from "@/assets/gallery-cupcakes1.webp";
+import cakePop from "@/assets/gallery-cakepops1.webp";
+import oreo from "@/assets/chocolate-covered-oreos1.webp";
+import icePop from "@/assets/gallery-popsicles1.webp";
 import { ElegantDivider } from "@/components/ui/ElegantDivider";
 
 type ProductShowcase = {
@@ -20,7 +20,7 @@ const products: ProductShowcase[] = [
   {
     title: "Torta",
     description:
-      "Capas suaves y rellenos caseros preparados a mano, con decoraciones delicadas y ese toque artesanal de pastelería de barrio hecha con dedicación.",
+      "Capas suaves y rellenos caseros preparados a mano, con decoraciones delicadas y ese toque artesanal de pastelería de barrio.",
     image: cakeClassic,
     color: "bg-[#F28B66]",
   },
@@ -39,25 +39,23 @@ const products: ProductShowcase[] = [
     color: "bg-[#F8B2CC]",
   },
   {
-    title: "Oreo bañadas",
+    title: "Oreo",
     description:
       "Galletitas bañadas en chocolate con terminaciones artesanales y diseños dulces que hacen cada pieza distinta y especial.",
     image: oreo,
-    color: "bg-[#C7E35E]",
+    color: "bg-[#9FB64B]",
   },
   {
     title: "Ice pop",
     description:
       "Paletas heladas artesanales con sabores frescos, colores suaves y una presentación pensada para disfrutar algo rico y simple.",
     image: icePop,
-    color: "bg-[#9FE3D6]",
+    color: "bg-[#7FB6AB]",
   },
 ];
 
 const ProductSection = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const titleRef = useScrollReveal();
-  const gridRef = useStaggerReveal(":scope > div", { staggerMs: 150 });
 
   const close = () => setLightboxIndex(null);
   const prev = useCallback(() => setLightboxIndex((i) => (i !== null ? (i - 1 + products.length) % products.length : null)), []);
@@ -84,17 +82,32 @@ const ProductSection = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div ref={titleRef} className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-16 md:mb-20">
           <span className="text-gold text-xs font-semibold tracking-[0.3em] uppercase font-sans">Nuestras especialidades</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-chocolate mt-4">La Colección</h2>
+          <motion.h2
+            className="font-serif text-4xl md:text-5xl text-chocolate mt-4"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            La Colección
+          </motion.h2>
           <ElegantDivider />
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-4 lg:gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-4 lg:gap-3">
           {products.map((p, i) => (
-            <div key={p.title} className="group flex flex-col items-center">
+            <motion.div
+              key={p.title}
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.08 }}
+            >
               <div
-                className="relative w-full h-[520px] md:h-[600px] overflow-hidden rounded-none bg-white shadow-lg ring-1 ring-black/5 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl cursor-pointer"
+                className="relative w-full h-[520px] md:h-[600px] overflow-hidden rounded-none bg-white ring-1 ring-black/5 cursor-pointer"
                 onClick={() => setLightboxIndex(i)}
               >
                 <div className="flex h-full flex-col">
@@ -104,19 +117,19 @@ const ProductSection = () => {
                       src={p.image}
                       alt={p.title}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                     />
                   </div>
 
                   {/* Bottom solid block */}
                   <div className={`${p.color} h-[52%] px-8 pt-8 pb-7 text-white`}>
                     {p.subtitle ? (
-                      <span className="block font-sans text-[10px] font-semibold tracking-[0.18em] uppercase text-white/90">
+                      <span className="block font-sans text-sm md:text-base font-semibold tracking-[0.18em] uppercase text-white/90">
                         {p.subtitle}
                       </span>
                     ) : null}
 
-                    <h3 className={`${p.subtitle ? "mt-6" : "mt-0"} font-sans text-[44px] leading-[1.05] tracking-tight text-white`}>
+                    <h3 className={`${p.subtitle ? "mt-6" : "mt-0"} font-sans text-[38px] leading-[1.05] tracking-tight text-white`}>
                       {p.title}
                     </h3>
 
@@ -130,13 +143,13 @@ const ProductSection = () => {
 
                     </a>
 
-                    <p className="mt-5 font-sans text-xs leading-relaxed text-white/85">
+                    <p className="mt-5 font-sans text-lg md:text-base leading-relaxed text-white/85">
                       {p.description}
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

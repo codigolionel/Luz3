@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
+import { motion } from "framer-motion";
 import { ElegantDivider } from "@/components/ui/ElegantDivider";
 
 const faqs = [
@@ -28,8 +28,6 @@ const faqs = [
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const titleRef = useScrollReveal();
-  const listRef = useStaggerReveal(".faq-item", { staggerMs: 60 });
 
   const toggle = (i: number) => setOpenIndex((prev) => (prev === i ? null : i));
 
@@ -38,19 +36,31 @@ const FAQSection = () => {
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-gold/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
-        <div ref={titleRef} className="text-center mb-12 md:mb-20">
+        <div className="text-center mb-12 md:mb-20">
           <span className="text-gold text-xs font-semibold tracking-[0.3em] uppercase font-sans">Información Importante</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-chocolate mt-4">Preguntas Frecuentes</h2>
+          <motion.h2
+            className="font-serif text-4xl md:text-5xl text-chocolate mt-4"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            Preguntas Frecuentes
+          </motion.h2>
           <ElegantDivider />
         </div>
 
-        <div ref={listRef} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
-              <div
+              <motion.div
                 key={i}
                 className="faq-item border-b border-border/50 bg-white/50 backdrop-blur-sm rounded-lg hover:bg-white transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.07 }}
               >
                 <button
                   onClick={() => toggle(i)}
@@ -68,12 +78,12 @@ const FAQSection = () => {
                     }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-6 pb-8 text-[15px] md:text-sm text-foreground/70 font-sans font-light leading-relaxed">
+                    <p className="px-6 pb-8 text-lg md:text-lg text-foreground/70 font-sans font-light leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

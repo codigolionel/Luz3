@@ -135,6 +135,24 @@ Footer
 | **GallerySection** | 16 imágenes en grid, todas con `loading="lazy"` ✅ pero 4 son PNGs de 600-700 KB cada una | 🟡 Medio |
 | **PromoBanner** | `backdrop-blur-xl` en el contenedor — en mobile esto es costoso por GPU | 🟢 Bajo |
 | **ProductsSection** | El grid es `grid-cols-2` en mobile — las cards quedan muy estrechas en pantallas <360px | 🟡 Medio |
+| **ProductsSection (Modal)** | Botón **Atrás** del dispositivo cerraba la pestaña en vez de cerrar el modal | 🔴 Alto |
+
+### Fix aplicado: Botón Atrás cierra el modal (sin cambiar URL)
+
+**Archivo:** `src/components/sections/ProductsSection.tsx`
+
+**Problema**
+El modal de producto se abría solo con estado React (`activeProduct`). En mobile, al tocar **Atrás**, el navegador no tenía un estado propio que “cerrar”, entonces volvía a la página anterior o cerraba el WebView.
+
+**Solución implementada (sin router, sin cambiar URL)**
+- Al abrir el modal se ejecuta `history.pushState(...)` para crear una entrada extra en el historial (no modifica la URL).
+- Mientras el modal está abierto se agrega un listener a `window.popstate`.
+- Si llega un `popstate` y el modal está abierto: se cierra el modal (`setActiveProduct(null)`) en vez de salir del navegador.
+- Al cerrar con la X o tocando el overlay: se llama `history.back()` solo si ese `pushState` fue disparado por el modal.
+
+**Cuidado contra loops / historial roto**
+- Se usa `useRef` (`didPushModalStateRef`) para saber si el estado del historial lo empujó el modal.
+- Se limpia el listener de `popstate` al cerrar para evitar leaks.
 | **Footer** | Google Maps iframe se carga siempre en mobile, ~500 KB en 4G | 🟡 Medio |
 
 ### Touch targets

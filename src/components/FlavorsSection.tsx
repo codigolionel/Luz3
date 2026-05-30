@@ -1,7 +1,7 @@
-import flavorVanilla from "@/assets/flavor-vanilla.jpg";
-import flavorChoco from "@/assets/flavor-choco-cake.jpg";
-import flavorRedvelvet from "@/assets/flavor-redvelvet.jpg";
-import { useScrollReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
+import flavorVanilla from "@/assets/flavor-vanilla.webp";
+import flavorChoco from "@/assets/flavor-choco-cake.webp";
+import flavorRedvelvet from "@/assets/flavor-redvelvet.webp";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -25,29 +25,41 @@ const features = [
 ];
 
 const FlavorsSection = () => {
-  const titleRef = useScrollReveal();
-  const gridRef = useStaggerReveal(":scope > div", { staggerMs: 150 });
-
   return (
     <section className="py-24 md:py-32 bg-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-        <div ref={titleRef} className="text-center mb-16 md:mb-20">
-          <h2 className="font-serif text-4xl md:text-[2.75rem] text-[#1a1a1a] mb-5">Mi compromiso con cada torta</h2>
-          <p className="text-gray-500 text-sm font-sans max-w-2xl mx-auto leading-relaxed">
-            En cada torta pongo dedicación, ingredientes de calidad y un diseño pensado especialmente para vos. Conocé lo que me hace diferente.
+        <div className="text-center mb-16 md:mb-20">
+          <motion.h2
+            className="font-serif text-4xl md:text-[2.75rem] text-[#1a1a1a] mb-5"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            De la idea al resultado final
+          </motion.h2>
+          <p className="text-gray-500 text-lg lg:text-xl font-sans max-w-2xl mx-auto leading-relaxed">
+            No es solo hornear. Es escuchar lo que necesitás, diseñarlo y hacerlo realidad con los mejores ingredientes.
           </p>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {features.map((feature, i) => (
-            <div key={i} className={`${feature.bgClass} h-[500px] md:h-[600px] relative overflow-hidden flex flex-col group`}>
+            <motion.div
+              key={i}
+              className={`${feature.bgClass} h-[500px] md:h-[600px] relative overflow-hidden flex flex-col group`}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.12 }}
+            >
               <div className="p-8 md:p-10 z-10 relative">
                 <div
-                  className="text-white text-lg lg:text-xl font-semibold font-sans mb-4"
+                  className="text-white text-[25px] lg:text-xl font-semibold font-sans mb-4"
                 >
                   {feature.title}
                 </div>
-                <p className="font-sans text-xs lg:text-sm text-white/90 leading-relaxed mb-8">
+                <p className="font-sans text-lg lg:text-base text-white/90 leading-relaxed mb-8">
                   {feature.description}
                 </p>
 
@@ -56,12 +68,12 @@ const FlavorsSection = () => {
               <div className="absolute bottom-0 left-0 w-full h-[55%] md:h-[60%] overflow-hidden">
                 <img
                   src={feature.image}
-                  alt={feature.title.replaceAll("\n", " ")}
+                  alt={feature.title}
                   loading="lazy"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
