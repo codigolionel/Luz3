@@ -42,14 +42,32 @@ const ProductsSection = () => {
     [allProducts]
   );
 
-  // Default to the first real category (eg: "Tortas") once products load.
+  // Default to the category in hash, or the first real category (eg: "Tortas") once products load.
   useEffect(() => {
-    if (didAutoSelectRef.current) return;
-    const firstCategory = categories.find((c) => c !== ALL_LABEL);
-    if (firstCategory) {
-      didAutoSelectRef.current = true;
-      setActiveCategory(firstCategory);
+    const handleSetCategory = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (categories.includes(customEvent.detail)) {
+        setActiveCategory(customEvent.detail);
+      }
+    };
+    window.addEventListener("setCategory", handleSetCategory);
+
+    const hash = window.location.hash;
+    if (hash.includes("?category=")) {
+      const cat = decodeURIComponent(hash.split("?category=")[1]);
+      if (categories.includes(cat)) {
+        didAutoSelectRef.current = true;
+        setActiveCategory(cat);
+      }
+    } else if (!didAutoSelectRef.current) {
+      const firstCategory = categories.find((c) => c !== ALL_LABEL);
+      if (firstCategory) {
+        didAutoSelectRef.current = true;
+        setActiveCategory(firstCategory);
+      }
     }
+
+    return () => window.removeEventListener("setCategory", handleSetCategory);
   }, [categories]);
 
   useEffect(() => {
@@ -264,7 +282,7 @@ const ProductsSection = () => {
                         )}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex w-full items-center justify-center rounded-full bg-rose px-7 py-3 font-sans text-[12px] font-bold uppercase tracking-[0.18em] text-white shadow-md transition-colors hover:bg-chocolate"
+                        className="inline-flex w-full items-center justify-center rounded-full bg-white border border-rose px-7 py-3 font-sans text-[12px] font-bold uppercase tracking-[0.18em] text-rose shadow-sm transition-colors hover:bg-rose hover:text-white"
                         onClick={closeActiveProduct}
                       >
                         Reserva ya

@@ -44,7 +44,10 @@ const Index = () => (
     </main>
 
     <Footer />
-    <WhatsAppButton number="1125419191" />
+    <WhatsAppButton 
+      number="5491125419191" 
+      text="¡Hola! Estuve viendo su página web y me gustaría hacerles una consulta." 
+    />
   </div>
 );
 

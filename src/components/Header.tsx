@@ -1,19 +1,35 @@
 import { useState, useEffect, useRef } from "react";
 import type React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Facebook, Instagram, Menu, X } from "lucide-react";
+import { Facebook, Instagram, Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.webp";
 
-const navLinks = [
+type NavLink = {
+  label: string;
+  href: string;
+  subLinks?: { label: string; href: string }[];
+};
+
+const navLinks: NavLink[] = [
   { label: "Inicio", href: "#" },
   { label: "Quién Soy", href: "#about" },
-  { label: "Productos", href: "#catalogo" },
-  { label: "Galería", href: "#gallery" },
+  {
+    label: "Productos",
+    href: "#catalogo",
+    subLinks: [
+      { label: "Tortas", href: "#catalogo?category=Tortas" },
+      { label: "Cupcakes", href: "#catalogo?category=Cupcakes" },
+      { label: "Popcakes", href: "#catalogo?category=Popcakes" },
+      { label: "Ice Pop", href: "#catalogo?category=Ice Pop" },
+    ],
+  },
+  { label: "Mi trabajo", href: "#gallery" },
   { label: "FAQ", href: "#faq" },
 ];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -30,13 +46,22 @@ const Header = () => {
   };
 
   const handleAnchorClick = (href: string, afterClose?: () => void) =>
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
+    (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
       if (!href.startsWith("#")) return;
       e.preventDefault();
 
       const doScroll = () => {
-        if (href === "#") scrollToTop();
-        else scrollToId(href.slice(1));
+        if (href.includes("?category=")) {
+          const [id, query] = href.slice(1).split("?");
+          scrollToId(id);
+          const cat = query.split("=")[1];
+          window.dispatchEvent(new CustomEvent('setCategory', { detail: decodeURIComponent(cat) }));
+          window.history.pushState(null, "", href);
+        } else {
+          if (href === "#") scrollToTop();
+          else scrollToId(href.slice(1));
+          window.history.pushState(null, "", href);
+        }
       };
 
       if (afterClose) {
@@ -119,7 +144,10 @@ const Header = () => {
     if (!mobileOpen) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        setMobileDropdownOpen(null);
+      }
     };
 
     document.addEventListener("keydown", onKeyDown);
@@ -129,6 +157,11 @@ const Header = () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  const handleMobileMenuClose = () => {
+    setMobileOpen(false);
+    setMobileDropdownOpen(null);
+  };
 
   return (
     <>
@@ -153,16 +186,45 @@ const Header = () => {
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                className="rounded-full px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-chocolate/80 transition-colors hover:bg-rose hover:text-white"
-                onClick={handleAnchorClick(link.href)}
-              >
-                {link.label}
-              </a>
+              link.subLinks ? (
+                <div key={link.label} className="relative group">
+                  <button 
+                    className="flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-chocolate/80 transition-colors group-hover:bg-rose group-hover:text-white"
+                    onClick={handleAnchorClick(link.href)}
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                  >
+                    {link.label}
+                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" strokeWidth={2.5} />
+                  </button>
+                  {/* Dropdown Container */}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                    <div className="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-rose/15 py-2 w-48 overflow-hidden relative">
+                      {link.subLinks.map((subLink) => (
+                        <a
+                          key={subLink.label}
+                          href={subLink.href}
+                          className="block px-6 py-3 text-xs font-bold tracking-[0.1em] uppercase text-chocolate/80 hover:bg-rose/5 hover:text-rose transition-colors relative z-10"
+                          onClick={handleAnchorClick(subLink.href)}
+                        >
+                          {subLink.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                  className="rounded-full px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-chocolate/80 transition-colors hover:bg-rose hover:text-white"
+                  onClick={handleAnchorClick(link.href)}
+                >
+                  {link.label}
+                </a>
+              )
             ))}
           </nav>
 
@@ -171,7 +233,7 @@ const Header = () => {
               href="https://wa.me/5491125419191"
               target="_blank"
               rel="noreferrer"
-              className="hidden md:flex px-5 py-2.5 bg-rose text-white font-sans text-xs  font-bold tracking-[0.2em] rounded hover:bg-chocolate hover:text-white transition-colors duration-300"
+              className="hidden md:flex px-5 py-2.5 bg-rose text-white font-sans text-xs font-bold tracking-[0.2em] rounded hover:bg-chocolate hover:text-white transition-colors duration-300"
             >
               Quiero mi torta
             </a>
@@ -204,7 +266,7 @@ const Header = () => {
               type="button"
               className="absolute inset-0 bg-black/35 backdrop-blur-sm"
               aria-label="Cerrar menú"
-              onClick={() => setMobileOpen(false)}
+              onClick={handleMobileMenuClose}
               variants={{
                 hidden: { opacity: 0 },
                 show: { opacity: 1, transition: { duration: prefersReducedMotion ? 0 : 0.18 } },
@@ -232,18 +294,18 @@ const Header = () => {
             >
               <div className="flex h-full flex-col">
                 {/* Top section */}
-                <div className="relative flex-1 bg-black/90 text-white px-8 py-10">
+                <div className="relative flex-1 bg-black/90 text-white px-8 py-10 overflow-y-auto">
                   <button
                     type="button"
-                    onClick={() => setMobileOpen(false)}
+                    onClick={handleMobileMenuClose}
                     aria-label="Cerrar menú"
-                    className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition-colors hover:bg-white/15"
+                    className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition-colors hover:bg-white/15 z-50"
                   >
                     <X className="h-5 w-5" strokeWidth={1.75} />
                   </button>
 
                   <motion.nav
-                    className="mt-16 space-y-6 text-center"
+                    className="mt-16 flex flex-col space-y-6 text-center"
                     variants={{
                       hidden: {},
                       show: {
@@ -255,13 +317,8 @@ const Header = () => {
                     }}
                   >
                     {navLinks.map((link) => (
-                      <motion.a
+                      <motion.div
                         key={link.label}
-                        href={link.href}
-                        target={link.href.startsWith("http") ? "_blank" : undefined}
-                        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                        className="block text-base font-bold tracking-[0.22em] uppercase text-white/90 transition-colors hover:text-[#F8B2CC]"
-                        onClick={handleAnchorClick(link.href, () => setMobileOpen(false))}
                         variants={{
                           hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10, filter: "blur(2px)" },
                           show: prefersReducedMotion
@@ -270,16 +327,57 @@ const Header = () => {
                           exit: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 6, filter: "blur(2px)", transition: { duration: 0.12 } },
                         }}
                       >
-                        {link.label}
-                      </motion.a>
+                        {link.subLinks ? (
+                          <div className="w-full flex flex-col items-center">
+                            <button
+                              onClick={() => setMobileDropdownOpen(mobileDropdownOpen === link.label ? null : link.label)}
+                              className="flex items-center justify-center gap-2 text-base font-bold tracking-[0.22em] uppercase text-white/90 transition-colors hover:text-[#F8B2CC]"
+                              aria-expanded={mobileDropdownOpen === link.label}
+                            >
+                              {link.label}
+                              <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${mobileDropdownOpen === link.label ? "rotate-180 text-[#F8B2CC]" : ""}`} strokeWidth={2} />
+                            </button>
+                            
+                            <AnimatePresence>
+                              {mobileDropdownOpen === link.label && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                                  className="overflow-hidden w-full"
+                                >
+                                  <div className="flex flex-col items-center gap-5 pt-6 pb-2">
+                                    {link.subLinks.map((subLink) => (
+                                      <a
+                                        key={subLink.label}
+                                        href={subLink.href}
+                                        className="block text-sm font-bold tracking-[0.15em] uppercase text-white/60 transition-colors hover:text-white"
+                                        onClick={handleAnchorClick(subLink.href, handleMobileMenuClose)}
+                                      >
+                                        {subLink.label}
+                                      </a>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        ) : (
+                          <a
+                            href={link.href}
+                            target={link.href.startsWith("http") ? "_blank" : undefined}
+                            rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                            className="block text-base font-bold tracking-[0.22em] uppercase text-white/90 transition-colors hover:text-[#F8B2CC]"
+                            onClick={handleAnchorClick(link.href, handleMobileMenuClose)}
+                          >
+                            {link.label}
+                          </a>
+                        )}
+                      </motion.div>
                     ))}
 
-                    <motion.a
-                      href="https://wa.me/5491125419191"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-12 inline-flex items-center justify-center rounded-full bg-rose px-7 py-3 font-sans text-xs font-bold uppercase tracking-[0.2em] text-white shadow-md transition-colors hover:bg-chocolate"
-                      onClick={() => setMobileOpen(false)}
+                    <motion.div
                       variants={{
                         hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10, filter: "blur(2px)" },
                         show: prefersReducedMotion
@@ -287,9 +385,18 @@ const Header = () => {
                           : { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } },
                         exit: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 6, filter: "blur(2px)", transition: { duration: 0.12 } },
                       }}
+                      className="pt-4"
                     >
-                      Quiero mi torta
-                    </motion.a>
+                      <a
+                        href="https://wa.me/5491125419191"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-full bg-rose px-7 py-3 font-sans text-xs font-bold uppercase tracking-[0.2em] text-white shadow-md transition-colors hover:bg-chocolate"
+                        onClick={handleMobileMenuClose}
+                      >
+                        Quiero mi torta
+                      </a>
+                    </motion.div>
 
                     <motion.div
                       className="pt-4 flex items-center justify-center gap-4"
@@ -305,7 +412,7 @@ const Header = () => {
                         rel="noreferrer"
                         aria-label="Instagram"
                         className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white shadow-sm ring-1 ring-white/15 transition-colors hover:bg-white/15"
-                        onClick={() => setMobileOpen(false)}
+                        onClick={handleMobileMenuClose}
                       >
                         <Instagram className="h-5 w-5" strokeWidth={1.75} />
                       </a>
@@ -315,7 +422,7 @@ const Header = () => {
                         rel="noreferrer"
                         aria-label="Facebook"
                         className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white shadow-sm ring-1 ring-white/15 transition-colors hover:bg-white/15"
-                        onClick={() => setMobileOpen(false)}
+                        onClick={handleMobileMenuClose}
                       >
                         <Facebook className="h-5 w-5" strokeWidth={1.75} />
                       </a>
@@ -336,7 +443,7 @@ const Header = () => {
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center rounded-full bg-[#25D366] px-8 py-3 font-sans text-sm font-semibold normal-case text-white shadow-lg shadow-[#25D366]/20 transition-colors hover:bg-[#1ebe5a]"
-                    onClick={() => setMobileOpen(false)}
+                    onClick={handleMobileMenuClose}
                   >
                     WhatsApp
                   </a>

@@ -63,7 +63,7 @@ const CommunitySection = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            Nada me da más satisfacción que ver la cara de felicidad cuando reciben su pedido. Acá van algunas palabras de quienes ya confiaron en mí.
+            Nada me da más satisfacción que ver la cara de felicidad cuando reciben su pedido.
           </motion.p>
         </div>
 

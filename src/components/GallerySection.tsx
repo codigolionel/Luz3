@@ -78,15 +78,6 @@ const GallerySection = () => {
           >
             Mi trabajo
           </motion.h2>
-          <motion.p
-            className="text-gold text-xs font-semibold tracking-[0.3em] uppercase font-sans mt-3"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-          >
-            Galería
-          </motion.p>
           <ElegantDivider />
         </div>
 

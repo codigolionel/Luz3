@@ -116,6 +116,18 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
+                    href="#gallery"
+                    className="hover:text-white transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToId("gallery");
+                    }}
+                  >
+                    Mi trabajo
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#about"
                     className="hover:text-white transition-colors"
                     onClick={(e) => {

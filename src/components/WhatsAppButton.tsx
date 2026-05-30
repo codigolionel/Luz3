@@ -1,9 +1,11 @@
 interface WhatsAppButtonProps {
   number: string;
+  text?: string;
 }
 
-const WhatsAppButton = ({ number }: WhatsAppButtonProps) => {
-  const whatsappUrl = `https://wa.me/${number}`;
+const WhatsAppButton = ({ number, text }: WhatsAppButtonProps) => {
+  const encodedText = text ? `?text=${encodeURIComponent(text)}` : "";
+  const whatsappUrl = `https://wa.me/${number}${encodedText}`;
 
   return (
     <a

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const features = [
   {
     title: "Ingredientes frescos, sin conservantes",
-    description: "Usamos productos de calidad, seleccionados para que cada bocado sea rico y natural.",
+    description: "Productos de calidad, seleccionados para que cada bocado sea rico y natural.",
     image: flavorVanilla,
     bgClass: "bg-[#f28b66]"
   },
@@ -39,7 +39,7 @@ const FlavorsSection = () => {
             De la idea al resultado final
           </motion.h2>
           <p className="text-gray-500 text-lg lg:text-xl font-sans max-w-2xl mx-auto leading-relaxed">
-            No es solo hornear. Es escuchar lo que necesitás, diseñarlo y hacerlo realidad con los mejores ingredientes.
+            No es solo hornear. Es escuchar lo que necesitás, diseñarlo y hacerlo realidad.
           </p>
         </div>
 
